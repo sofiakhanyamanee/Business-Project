@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import UserKit from "../data/UserKit";
-// import { CustomerContext } from '../contexts/CustomerContext'
 
 export default function CreateCustomer({ fetchCustomers }) {
   const [name, setName] = useState("");
-  const [organisationNr, setOrganisationNr] = useState();
-  const [vatNr, setVatNr] = useState();
-  const [reference, setReference] = useState();
-  const [paymentTerm, setPaymentTerm] = useState();
-  const [website, setWebsite] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [organisationNr, setOrganisationNr] = useState("");
+  const [vatNr, setVatNr] = useState("");
+  const [reference, setReference] = useState("");
+  const [paymentTerm, setPaymentTerm] = useState("");
+  const [website, setWebsite] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const userKit = new UserKit();
 
