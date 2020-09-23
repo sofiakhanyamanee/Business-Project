@@ -1,24 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Switch, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import BaseLayout from "./components/BaseLayout";
+import CustomerDetailPage from "./pages/CustomerDetailPage";
+import { CustomerContext } from "./contexts/CustomerContext";
 
 function App() {
+  const [customerList, setCustomerList] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CustomerContext.Provider value={{ customerList, setCustomerList }}>
+        <Switch>
+          <Route
+            path="/customer/:id"
+            render={(props) => {
+              return (
+                <BaseLayout>
+                  <CustomerDetailPage {...props} />
+                </BaseLayout>
+              );
+            }}
+          ></Route>
+
+          <Route path="/home">
+            <BaseLayout>
+              <HomePage />
+            </BaseLayout>
+          </Route>
+
+          <Route path="/login">
+            <BaseLayout>
+              <LoginPage />
+            </BaseLayout>
+          </Route>
+
+          <Route exact path="/">
+            <BaseLayout>
+              <RegisterPage />
+            </BaseLayout>
+          </Route>
+        </Switch>
+      </CustomerContext.Provider>
     </div>
   );
 }
