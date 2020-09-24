@@ -6,7 +6,7 @@ export default function CreateCustomer({ fetchCustomers }) {
   const [organisationNr, setOrganisationNr] = useState("");
   const [vatNr, setVatNr] = useState("");
   const [reference, setReference] = useState("");
-  const [paymentTerm, setPaymentTerm] = useState("");
+  const [paymentTerm, setPaymentTerm] = useState(0);
   const [website, setWebsite] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
