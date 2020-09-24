@@ -83,6 +83,15 @@ export default class {
     })
   }
 
+  async editCustomer(id, payload){
+    const url = `${API_URL}customers/${id}/`
+    return fetch(url, {
+      method: "PATCH",
+      headers: this.getPrivateHeaders(),
+      body: JSON.stringify(payload)
+    })
+  }
+
 
   setToken(token) {
     localStorage.setItem("BUSINESS_TOKEN", token);
