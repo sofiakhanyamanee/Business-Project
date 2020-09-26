@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import UserKit from "../data/UserKit";
 import styled from 'styled-components'
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.main`
 width: 100vw;
@@ -10,10 +11,9 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-
 `
 
-const Container = styled.div`
+const FormContainer = styled.form`
 width: 100vw;
 display: flex;
 flex-direction: column;
@@ -82,8 +82,7 @@ cursor: pointer;
 `
 
 export default function LoginForm() {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const { register, handleSubmit, errors } = useForm();
 
   const history = useHistory();
   const searchString = history.location.search;
@@ -102,9 +101,9 @@ export default function LoginForm() {
     });
   }
 
-  function handleLogin() {
+  function handleLogin(data) {
     userKit
-      .login(loginEmail, loginPassword)
+      .login(data)
       .then((res) => res.json())
       .then((data) => {
         userKit.setToken(data.token);
@@ -120,23 +119,14 @@ export default function LoginForm() {
           <ActivateBtn onClick={handleActivateUser}>Activate</ActivateBtn>
         </div>
       ) : (
-        <Container>
+        <FormContainer onSubmit={handleSubmit(handleLogin)}>
             <Heading>Login</Heading>
-            <InputField
-                placeholder="Email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-            />
-            <InputField
-               placeholder="Password"
-               value={loginPassword}
-               type="password"
-                onChange={(e) => setLoginPassword(e.target.value)}
-            />
-            <BtnBox>
-              <LogInButton onClick={handleLogin}>Login</LogInButton>
-            </BtnBox>
-        </Container>
+            <InputField ref={register({required:true})} name="email" type="email" placeholder="Email"/>
+            {errors.email && errors.email.type === "required" && (<p>* required</p>)}
+            <InputField ref={register({required:true})} name="password" type="password" placeholder="Password"/>
+            {errors.password && errors.password.type === "required" && (<p>* required</p>)}
+            <LogInButton>Login</LogInButton>
+        </FormContainer>
       )}
     </Wrapper>
   );
