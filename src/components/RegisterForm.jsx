@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserKit from "../data/UserKit";
 import styled from "styled-components";
+import { useHistory } from 'react-router-dom'
 
 const Wrapper = styled.div`
   width: 60vw;
@@ -21,22 +22,17 @@ const ApplicationHeading = styled.h1`
 const Paragraph = styled.p`
   color: white;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   font-size: 23px;
   color:#364947;
 `;
 
 const Form = styled.div`
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
+  display: block;
   width: 80%;
   // background:slategrey;
-`;
-
-const Label = styled.label`
-  font-size: 20px;
-  color: whitesmoke;
-  // font-family: tahoma;
 `;
 
 const InputField = styled.input`
@@ -47,13 +43,7 @@ border-radius: 12pt;
 padding-left: 12px;
 outline:none;
 opacity: 0.5;
-`;
-
-const LabelAndInput = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 8px 0;
+margin: 10px 20px;
 `;
 
 const RegisterBtn = styled.button`
@@ -85,6 +75,7 @@ export default function RegisterForm() {
   const [organisationKind, setOrganisationKind] = useState("");
 
   const userKit = new UserKit();
+  const history = useHistory();
 
   function handleRegister() {
     userKit.register(
@@ -95,39 +86,51 @@ export default function RegisterForm() {
       organisationName,
       organisationKind
     );
+      history.push("/activate-user")
   }
 
-  function renderInput(index, placeholder, stateVariable, stateSetVariable) {
-    return (
-      <div key={index}>
-        <LabelAndInput>
-          <Label>{placeholder}:</Label>
-          <InputField
-            value={stateVariable}
-            onChange={(e) => stateSetVariable(e.target.value)}
-          />
-        </LabelAndInput>
-      </div>
-    );
-  }
-
-  const inputObjects = [
-    ["First Name", firstName, setFirstName],
-    ["Last Name", lastName, setLastName],
-    ["Email", email, setEmail],
-    ["Password", password, setPassword],
-    ["Organisation Name", organisationName, setOrganisationName],
-    ["Organisation Kind (0,1,2)", organisationKind, setOrganisationKind],
-  ];
 
   return (
     <Wrapper>
       <ApplicationHeading>Business Application</ApplicationHeading>
       <Paragraph>Create new account</Paragraph>
       <Form>
-        {inputObjects.map((inputItem, index) => {
-          return renderInput(index, inputItem[0], inputItem[1], inputItem[2]);
-        })}
+      <InputField
+        type="text"
+        placeholder="Firstname"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+      ></InputField>
+      <InputField
+        type="text"
+        placeholder="Lastname"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+      ></InputField>
+        <InputField
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></InputField>
+      <InputField
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      ></InputField>
+      <InputField
+        type="text"
+        placeholder="Organisation name"
+        value={organisationName}
+        onChange={(e) => setOrganisationName(e.target.value)}
+      ></InputField>
+      <InputField
+        type="text"
+        placeholder="Organisation kind (0, 1, 2)"
+        value={organisationKind}
+        onChange={(e) => setOrganisationKind(e.target.value)}
+      ></InputField>
         <RegisterBtn onClick={handleRegister}>Register</RegisterBtn>
       </Form>
     </Wrapper>
