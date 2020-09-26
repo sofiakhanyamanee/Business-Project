@@ -1,7 +1,105 @@
 import React, { useState, useContext } from "react";
 import { CustomerContext } from "../contexts/CustomerContext";
 import UserKit from "../data/UserKit";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import styled from 'styled-components'
+
+const Wrapper = styled.main`
+width: 100vw;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+
+& a {
+  position:absolute;
+  top: 20px;
+  left: 20px;
+  color: whitesmoke;
+  border: 1px solid whitesmoke;
+  border-radius: 12pt;
+  text-decoration: none;
+  padding: 10px;
+  
+    &:hover {
+      background:#364947;
+      color: white:smoke;
+      border: none;
+    }
+}
+`
+
+const Heading = styled.h1`
+padding: 8px 0;
+font-weight: 300;
+`
+
+const Container = styled.div`
+width: 40vw;
+height: 40vh;
+background: whitesmoke;
+color:#364947;
+padding: 25px;
+border-radius: 12pt;
+opacity: 0.8;
+`
+const Ul = styled.ul`
+`
+
+const Li = styled.li`
+color: #364947;
+list-style-type: none;
+padding: 4px 0;
+`
+
+const ButtonBox = styled.div`
+width: 100%;
+backgorund:orange;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+
+const Button = styled.button`
+border:none;
+border: 1px solid #364947;
+outline: none;
+background: whitesmoke;
+width: 15vw;
+height: 5vh;
+margin-top: 20px;
+border-radius: 12pt;
+opacity: 0.9;
+font-size: 15px;
+color: #364947;
+margin-right: 10px;
+
+&:hover {
+  background:#364947;
+  color:whitesmoke;
+}
+`
+
+const FormBtns = styled(Button)`
+border: none;
+`
+
+const FormBox = styled.div`
+width: 50vw;
+text-align: center;
+`
+
+const InputField = styled.input`
+width: 20vw;
+height: 6vh;
+margin: 5px;
+border: none;
+border-radius: 12pt;
+padding-left: 12px;
+outline:none;
+opacity: 0.5;
+`
+
 
 export default function CustomerDetailPage(props) {
   const history = useHistory();
@@ -39,43 +137,42 @@ export default function CustomerDetailPage(props) {
     if (toggleInput === true) {
       console.log("edit this shit");
       return (
-        <div>
-          <p>time to ediiit</p>
-          <input
+        <FormBox>
+          <InputField
             onChange={(e) => setName(e.target.value)}
             placeholder={customer.name}
           />
-          <input
+          <InputField
             onChange={(e) => setOrganisationNr(e.target.value)}
             placeholder={customer.organisationNr}
           />
-          <input
+          <InputField
             onChange={(e) => setVatNr(e.target.value)}
             placeholder={customer.vatNr}
           />
-          <input
+          <InputField
             onChange={(e) => setPaymentTerm(e.target.value)}
             placeholder={customer.paymentTerm}
           />
-          <input
+          <InputField
             onChange={(e) => setEmail(e.target.value)}
             placeholder={customer.email}
           />
-          <input
+          <InputField
             onChange={(e) => setReference(e.target.value)}
             placeholder={customer.reference}
           />
-          <input
+          <InputField
             onChange={(e) => setWebsite(e.target.value)}
             placeholder={customer.website}
           />
-          <input
+          <InputField
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder={customer.phoneNumber}
           />
-          <button onClick={() => setToggleInput(false)}>Cancel</button>
-          <button onClick={editInfo}>Save changes</button>
-        </div>
+          <FormBtns onClick={() => setToggleInput(false)}>Cancel</FormBtns>
+          <FormBtns onClick={editInfo}>Save changes</FormBtns>
+        </FormBox>
       );
     }
   }
@@ -102,25 +199,26 @@ export default function CustomerDetailPage(props) {
       });
   }
 
-  // useEffect(() => {
-  //   editInfo();
-  // }, []);
-
   return (
-    <div>
-      <h1>{`Kund: ${customer.name}`}</h1>
-      <ul>
-        <li>{`OrgNr: ${customer.organisationNr}`}</li>
-        <li>{`VatNr: ${customer.vatNr}`}</li>
-        <li>{`PaymentTerm: ${customer.paymentTerm}`}</li>
-        <li>{`Email: ${customer.email}`}</li>
-        <li>{`Ref: ${customer.reference}`}</li>
-        <li>{`Website: ${customer.website}`}</li>
-        <li>{`Phone: ${customer.phoneNumber}`}</li>
-      </ul>
-      <button onClick={handleDeleteCustomer}>DELETE CUSTOMER</button>
-      <button onClick={handleEditCustomer}>EDIT</button>
+    <Wrapper>
+      <Link to="/home">Back to startpage</Link>
+      <Container>
+      <Heading>{`${customer.name}`}</Heading>
+      <Ul>
+        <Li>{`OrgNr: ${customer.organisationNr}`}</Li>
+        <Li>{`VatNr: ${customer.vatNr}`}</Li>
+        <Li>{`PaymentTerm: ${customer.paymentTerm}`}</Li>
+        <Li>{`Email: ${customer.email}`}</Li>
+        <Li>{`Ref: ${customer.reference}`}</Li>
+        <Li>{`Website: ${customer.website}`}</Li>
+        <Li>{`Phone: ${customer.phoneNumber}`}</Li>
+      </Ul>
+      <ButtonBox>
+      <Button onClick={handleEditCustomer}>Edit</Button>
+      <Button delete onClick={handleDeleteCustomer}>Delete customer</Button>
+      </ButtonBox>
+      </Container>
       {showEditor()}
-    </div>
+    </Wrapper>
   );
 }

@@ -13,11 +13,6 @@ body {
   color: white;
 }
 
-a {
-  color:red;
-  padding: 5px;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

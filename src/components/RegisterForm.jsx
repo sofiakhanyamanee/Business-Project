@@ -4,17 +4,26 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 60vw;
-  // background: coral;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 1px solid whitesmoke;
+  padding: 50px 80px;
 `;
 
-const Heading = styled.h1`
+const ApplicationHeading = styled.h1`
   color: white;
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 30px;
+`;
+
+const Paragraph = styled.p`
+  color: white;
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 23px;
+  color:#364947;
 `;
 
 const Form = styled.div`
@@ -22,36 +31,49 @@ const Form = styled.div`
   flex-direction: column;
   width: 80%;
   // background:slategrey;
-  font-size: 22px;
 `;
 
 const Label = styled.label`
+  font-size: 20px;
   color: whitesmoke;
+  // font-family: tahoma;
 `;
 
 const InputField = styled.input`
-  font-size: 22px;
-  border: none;
-  background: transparent;
-  color: whitesmoke;
-  border-bottom: 1px solid white;
-  width: 50%;
+width: 20vw;
+height: 6vh;
+border: none;
+border-radius: 12pt;
+padding-left: 12px;
+outline:none;
+opacity: 0.5;
 `;
 
 const LabelAndInput = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 8px 0;
 `;
 
 const RegisterBtn = styled.button`
-  margin-top: 35px;
-  padding: 10px 0;
-  border: none;
-  border-radius: 8pt;
-  font-size: 20px;
-  outline: none;
-  cursor: pointer;
+border:none;
+outline: none;
+background:#364947;
+width: 48vw;
+height: 6vh;
+margin-top: 20px;
+border-radius: 12pt;
+opacity: 0.9;
+font-size: 18px;
+color: whitesmoke;
+cursor: pointer;
+
+&:hover {
+  background: #80BA7F;
+  color:#364947;
+}
+
 `;
 
 export default function RegisterForm() {
@@ -100,7 +122,8 @@ export default function RegisterForm() {
 
   return (
     <Wrapper>
-      <Heading>Register</Heading>
+      <ApplicationHeading>Business Application</ApplicationHeading>
+      <Paragraph>Create new account</Paragraph>
       <Form>
         {inputObjects.map((inputItem, index) => {
           return renderInput(index, inputItem[0], inputItem[1], inputItem[2]);
