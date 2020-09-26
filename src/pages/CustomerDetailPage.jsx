@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { CustomerContext } from "../contexts/CustomerContext";
+import React, { useState, useEffect } from "react";
 import UserKit from "../data/UserKit";
 import { useHistory, Link } from "react-router-dom";
 import styled from 'styled-components'
@@ -85,8 +84,8 @@ border: none;
 `
 
 const FormBox = styled.div`
-width: 50vw;
 text-align: center;
+margin-left: 80px;
 `
 
 const InputField = styled.input`
@@ -148,38 +147,14 @@ export default function CustomerDetailPage(props) {
       console.log("edit this shit");
       return (
         <FormBox>
-          <InputField
-            onChange={(e) => setName(e.target.value)}
-            placeholder={customerDetail.name}
-          />
-          <InputField
-            onChange={(e) => setOrganisationNr(e.target.value)}
-            placeholder={customerDetail.organisationNr}
-          />
-          <InputField
-            onChange={(e) => setVatNr(e.target.value)}
-            placeholder={customerDetail.vatNr}
-          />
-          <InputField
-            onChange={(e) => setPaymentTerm(e.target.value)}
-            placeholder={customerDetail.paymentTerm}
-          />
-          <InputField
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={customerDetail.email}
-          />
-          <InputField
-            onChange={(e) => setReference(e.target.value)}
-            placeholder={customerDetail.reference}
-          />
-          <InputField
-            onChange={(e) => setWebsite(e.target.value)}
-            placeholder={customerDetail.website}
-          />
-          <InputField
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder={customerDetail.phoneNumber}
-          />
+          <InputField onChange={(e) => setName(e.target.value)} placeholder={customerDetail.name}/>
+          <InputField onChange={(e) => setOrganisationNr(e.target.value)} placeholder={customerDetail.organisationNr}/>
+          <InputField onChange={(e) => setVatNr(e.target.value)} placeholder={customerDetail.vatNr}/>
+          <InputField onChange={(e) => setPaymentTerm(e.target.value)} placeholder={customerDetail.paymentTerm}/>
+          <InputField onChange={(e) => setEmail(e.target.value)} placeholder={customerDetail.email}/>
+          <InputField onChange={(e) => setReference(e.target.value)} placeholder={customerDetail.reference}/>
+          <InputField onChange={(e) => setWebsite(e.target.value)} placeholder={customerDetail.website}/>
+          <InputField onChange={(e) => setPhoneNumber(e.target.value)} placeholder={customerDetail.phoneNumber}/>
           <FormBtns onClick={() => setToggleInput(false)}>Cancel</FormBtns>
           <FormBtns onClick={editInfo}>Save changes</FormBtns>
         </FormBox>

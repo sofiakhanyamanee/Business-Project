@@ -49,6 +49,9 @@ background: #739994;
 width: 50vw;
 padding: 50px 30px;
 color: #364947;
+display: flex;
+justify-content: center;
+align-items: center;
 `
 
 const User = styled.div`
