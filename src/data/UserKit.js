@@ -23,13 +23,12 @@ export default class {
     });
   }
 
-  async login(email, password) {
+  async login(data) {
     const url = `${ROOT_URL}api-token-auth/`;
-    const payload = { email, password };
     return fetch(url, {
       method: "POST",
       headers: this.getPublicHeaders(),
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
     });
   }
 
