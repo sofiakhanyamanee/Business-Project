@@ -130,6 +130,7 @@ export default function LoginForm() {
             <InputField
                placeholder="Password"
                value={loginPassword}
+               type="password"
                 onChange={(e) => setLoginPassword(e.target.value)}
             />
             <BtnBox>
