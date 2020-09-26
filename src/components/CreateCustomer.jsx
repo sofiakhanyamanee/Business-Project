@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import UserKit from "../data/UserKit";
 import styled from 'styled-components'
+import { useForm } from 'react-hook-form'
 
 const Paragraph = styled.p`
 font-size: 22px;
@@ -8,7 +9,7 @@ margin 20px 0;
 text-shadow: 0 0.6px 0 rgba(255, 255, 255, 0.4)
 `
 
-const Form = styled.div`
+const Form = styled.form`
 // background: orange;
 width: 100%;
 text-align: center;
@@ -45,92 +46,40 @@ color: #364947;
 `
 
 export default function CreateCustomer({ fetchCustomers }) {
-  const [name, setName] = useState("");
-  const [organisationNr, setOrganisationNr] = useState("");
-  const [vatNr, setVatNr] = useState("");
-  const [reference, setReference] = useState("");
-  const [paymentTerm, setPaymentTerm] = useState("");
-  const [website, setWebsite] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
   const userKit = new UserKit();
+  const { register, handleSubmit } = useForm();
 
-  function handleCreateCustomer() {
-    const payload = {
-      name,
-      organisationNr,
-      vatNr,
-      reference,
-      paymentTerm,
-      website,
-      email,
-      phoneNumber,
-    };
-    userKit
-      .createCustomer(payload)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data)
-        fetchCustomers();
-      });
+
+  function handleCreateCustomer(data) {
+      userKit.createCustomer(data)
+      .then(res => res.json())
+      .then(data => {
+      console.log(data)
+      fetchCustomers()
+      })
+
   }
 
+  useEffect(() => {
+    handleCreateCustomer()
+  }, [])
+
   return (
-    <Form>
+    <>
+    <Form onSubmit={handleSubmit(handleCreateCustomer)}>
       <Paragraph>Create new customer</Paragraph>
-      <InputField
-        type="text"
-        placeholder="Customer name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Organisation number"
-        value={organisationNr}
-        onChange={(e) => setOrganisationNr(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="VAT-number"
-        value={vatNr}
-        onChange={(e) => setVatNr(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Reference"
-        value={reference}
-        onChange={(e) => setReference(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Payment term"
-        value={paymentTerm}
-        onChange={(e) => setPaymentTerm(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Website"
-        value={website}
-        onChange={(e) => setWebsite(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Phone number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-      ></InputField>
-      <div>
-      <CreateBtn onClick={handleCreateCustomer}>Create customer</CreateBtn>
+      <InputField ref={register({required:true})} name="name" type="text" placeholder="Customer name"></InputField>
+      <InputField ref={register({required:true})} name="organisationNr" type="text" placeholder="Organisation number"></InputField>
+      <InputField ref={register({required:true})} name="vatNr" type="text" placeholder="VAT-number"></InputField>
+      <InputField ref={register({required:true})} name="reference" type="text" placeholder="Reference"></InputField>
+      <InputField ref={register({required:true})} name="paymentTerm" type="text" placeholder="Payment term"></InputField>
+      <InputField ref={register({required:true})} name="website" type="text" placeholder="Website"></InputField>
+      <InputField ref={register({required:true})} name="email" type="email" placeholder="Email"></InputField>
+      <InputField ref={register({required:true})} name="phoneNumber" type="text" placeholder="Phone number"></InputField>
+       <div>
+      <CreateBtn>Create customer</CreateBtn>
       </div>
-  
     </Form>
+    </>
   );
 }
