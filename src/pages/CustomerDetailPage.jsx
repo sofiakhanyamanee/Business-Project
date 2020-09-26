@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { CustomerContext } from "../contexts/CustomerContext";
 import UserKit from "../data/UserKit";
 import { useHistory, Link } from "react-router-dom";
 import styled from 'styled-components'
 
 const Wrapper = styled.main`
-width: 100vw;
+width: 10vw;
 height: 100vh;
 display: flex;
 justify-content: center;
@@ -104,13 +104,8 @@ opacity: 0.5;
 export default function CustomerDetailPage(props) {
   const history = useHistory();
   const [toggleInput, setToggleInput] = useState(false);
-  const { customerList } = useContext(CustomerContext);
+  const [customerDetail, setCustomerDetail] = useState([])
   const customerID = props.match.params.id;
-
-  const customer = customerList.find(
-    (item) => item.id.toString() === customerID
-  );
-
   const userKit = new UserKit();
 
   function handleDeleteCustomer() {
@@ -120,18 +115,33 @@ export default function CustomerDetailPage(props) {
     });
   }
 
+  useEffect(() => {
+    fetchCustomerDetails()
+  }, [])
+
+
+  function fetchCustomerDetails() {
+    userKit.getCustomerDetails(customerID)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      setCustomerDetail(data);
+    })
+  }
+
+  
   function handleEditCustomer() {
     setToggleInput(true);
   }
 
-  const [name, setName] = useState(customer.name);
-  const [organisationNr, setOrganisationNr] = useState(customer.organisationNr);
-  const [vatNr, setVatNr] = useState(customer.vatNr);
-  const [reference, setReference] = useState(customer.reference);
-  const [paymentTerm, setPaymentTerm] = useState(customer.paymentTerm);
-  const [website, setWebsite] = useState(customer.website);
-  const [email, setEmail] = useState(customer.email);
-  const [phoneNumber, setPhoneNumber] = useState(customer.phoneNumber);
+  const [name, setName] = useState(customerDetail.name);
+  const [organisationNr, setOrganisationNr] = useState(customerDetail.organisationNr);
+  const [vatNr, setVatNr] = useState(customerDetail.vatNr);
+  const [reference, setReference] = useState(customerDetail.reference);
+  const [paymentTerm, setPaymentTerm] = useState(customerDetail.paymentTerm);
+  const [website, setWebsite] = useState(customerDetail.website);
+  const [email, setEmail] = useState(customerDetail.email);
+  const [phoneNumber, setPhoneNumber] = useState(customerDetail.phoneNumber);
 
   function showEditor() {
     if (toggleInput === true) {
@@ -140,35 +150,35 @@ export default function CustomerDetailPage(props) {
         <FormBox>
           <InputField
             onChange={(e) => setName(e.target.value)}
-            placeholder={customer.name}
+            placeholder={customerDetail.name}
           />
           <InputField
             onChange={(e) => setOrganisationNr(e.target.value)}
-            placeholder={customer.organisationNr}
+            placeholder={customerDetail.organisationNr}
           />
           <InputField
             onChange={(e) => setVatNr(e.target.value)}
-            placeholder={customer.vatNr}
+            placeholder={customerDetail.vatNr}
           />
           <InputField
             onChange={(e) => setPaymentTerm(e.target.value)}
-            placeholder={customer.paymentTerm}
+            placeholder={customerDetail.paymentTerm}
           />
           <InputField
             onChange={(e) => setEmail(e.target.value)}
-            placeholder={customer.email}
+            placeholder={customerDetail.email}
           />
           <InputField
             onChange={(e) => setReference(e.target.value)}
-            placeholder={customer.reference}
+            placeholder={customerDetail.reference}
           />
           <InputField
             onChange={(e) => setWebsite(e.target.value)}
-            placeholder={customer.website}
+            placeholder={customerDetail.website}
           />
           <InputField
             onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder={customer.phoneNumber}
+            placeholder={customerDetail.phoneNumber}
           />
           <FormBtns onClick={() => setToggleInput(false)}>Cancel</FormBtns>
           <FormBtns onClick={editInfo}>Save changes</FormBtns>
@@ -203,15 +213,15 @@ export default function CustomerDetailPage(props) {
     <Wrapper>
       <Link to="/home">Back to startpage</Link>
       <Container>
-      <Heading>{`${customer.name}`}</Heading>
+      <Heading>{`${customerDetail.name}`}</Heading>
       <Ul>
-        <Li>{`OrgNr: ${customer.organisationNr}`}</Li>
-        <Li>{`VatNr: ${customer.vatNr}`}</Li>
-        <Li>{`PaymentTerm: ${customer.paymentTerm}`}</Li>
-        <Li>{`Email: ${customer.email}`}</Li>
-        <Li>{`Ref: ${customer.reference}`}</Li>
-        <Li>{`Website: ${customer.website}`}</Li>
-        <Li>{`Phone: ${customer.phoneNumber}`}</Li>
+        <Li>{`OrgNr: ${customerDetail.organisationNr}`}</Li>
+        <Li>{`VatNr: ${customerDetail.vatNr}`}</Li>
+        <Li>{`PaymentTerm: ${customerDetail.paymentTerm}`}</Li>
+        <Li>{`Email: ${customerDetail.email}`}</Li>
+        <Li>{`Ref: ${customerDetail.reference}`}</Li>
+        <Li>{`Website: ${customerDetail.website}`}</Li>
+        <Li>{`Phone: ${customerDetail.phoneNumber}`}</Li>
       </Ul>
       <ButtonBox>
       <Button onClick={handleEditCustomer}>Edit</Button>
