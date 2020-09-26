@@ -7,6 +7,7 @@ import BaseLayout from "./components/BaseLayout";
 import CustomerDetailPage from "./pages/CustomerDetailPage";
 import { CustomerContext } from "./contexts/CustomerContext";
 import { UserContext } from "./contexts/UserContext";
+import ActivateUserPage from "./pages/ActivateUserPage";
 
 function App() {
   const [userInfo, setUserInfo] = useState([]);
@@ -37,6 +38,12 @@ function App() {
             <Route path="/login">
               <BaseLayout>
                 <LoginPage />
+              </BaseLayout>
+            </Route>
+
+            <Route exact path="/activate-user">
+              <BaseLayout>
+                <ActivateUserPage/>
               </BaseLayout>
             </Route>
 
