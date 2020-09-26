@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import UserKit from "../data/UserKit";
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom'
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
   width: 60vw;
@@ -27,7 +28,7 @@ const Paragraph = styled.p`
   color:#364947;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   // flex-direction: column;
   display: block;
@@ -40,17 +41,17 @@ width: 20vw;
 height: 6vh;
 border: none;
 border-radius: 12pt;
-padding-left: 12px;
+padding: 0 12px;
 outline:none;
 opacity: 0.5;
-margin: 10px 20px;
+margin: 10px 15px;
 `;
 
 const RegisterBtn = styled.button`
 border:none;
 outline: none;
 background:#364947;
-width: 48vw;
+width: 30vw;
 height: 6vh;
 margin-top: 20px;
 border-radius: 12pt;
@@ -67,72 +68,39 @@ cursor: pointer;
 `;
 
 export default function RegisterForm() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [organisationName, setOrganisationName] = useState("");
-  const [organisationKind, setOrganisationKind] = useState("");
+
+  const { register, handleSubmit, errors } = useForm();
 
   const userKit = new UserKit();
   const history = useHistory();
 
-  function handleRegister() {
+  function handleRegister(data) {
+    console.log(data)
     userKit.register(
-      firstName,
-      lastName,
-      email,
-      password,
-      organisationName,
-      organisationKind
+      data
     );
       history.push("/activate-user")
   }
-
 
   return (
     <Wrapper>
       <ApplicationHeading>Business Application</ApplicationHeading>
       <Paragraph>Create new account</Paragraph>
-      <Form>
-      <InputField
-        type="text"
-        placeholder="Firstname"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Lastname"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-      ></InputField>
-        <InputField
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        ></InputField>
-      <InputField
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Organisation name"
-        value={organisationName}
-        onChange={(e) => setOrganisationName(e.target.value)}
-      ></InputField>
-      <InputField
-        type="text"
-        placeholder="Organisation kind (0, 1, 2)"
-        value={organisationKind}
-        onChange={(e) => setOrganisationKind(e.target.value)}
-      ></InputField>
-        <RegisterBtn onClick={handleRegister}>Register</RegisterBtn>
+      <Form onSubmit={handleSubmit(handleRegister)}>
+        <InputField ref={register({required:true})} name="firstName" type="text" placeholder="Firstname"></InputField>
+        {errors.firstName && errors.firstName.type === "required" && (<p>This is Required</p>)}
+        <InputField ref={register({required:true})} name="lastName" type="text" placeholder="Lastname"></InputField>
+        {errors.lastName && errors.lastName.type === "required" && (<p>This is Required</p>)}
+        <InputField ref={register({required:true})} name="email" type="text" placeholder="Email"></InputField>
+        {errors.email && errors.email.type === "required" && (<p>This is Required</p>)}
+        <InputField ref={register({required:true})} name="password" type="password" placeholder="Password"></InputField>
+        {errors.password && errors.password.type === "required" && (<p>This is Required</p>)}
+        <InputField ref={register({required:true})} name="organisationName" type="text" placeholder="Organisation name"></InputField>
+        {errors.organisationName && errors.organisationName.type === "required" && (<p>This is Required</p>)}
+       <InputField  ref={register({required:true})} name="organisationKind"type="text" placeholder="Organisation kind (0, 1, 2)"></InputField>
+       {errors.organisationKind && errors.organisationKind.type === "required" && (<p>This is Required</p>)}
       </Form>
+        <RegisterBtn>Register</RegisterBtn>
     </Wrapper>
   );
 }
