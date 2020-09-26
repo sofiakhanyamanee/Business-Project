@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const Paragraph = styled.p`
 color: #364947;
-font-size: 22px;
+font-size: 20px;
 `
 
 const Table = styled.table`
@@ -57,7 +57,7 @@ export default function CustomerList({ fetchCustomers }) {
         <TableHeading>Reference</TableHeading>
       </TableRow>
 
-      {customerList.length > 0 ? (
+      {customerList === null || customerList.length > 0 ? (
         customerList.map((customerItem) => {
           const id = customerItem.id;
           return (<>
