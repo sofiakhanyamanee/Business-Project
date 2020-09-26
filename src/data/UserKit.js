@@ -4,27 +4,12 @@ const API_URL = `${ROOT_URL}api/v1/`
 // const LOGIN_URL = `${ROOT_URL}api-token-auth/`
 
 export default class {
-  async register(
-    firstName,
-    lastName,
-    email,
-    password,
-    organisationName,
-    organisationKind
-  ) {
+  async register(data) {
     const url = `${ROOT_URL}auth/users/`;
-    const payload = {
-      firstName,
-      lastName,
-      email,
-      password,
-      organisationName,
-      organisationKind,
-    };
     return fetch(url, {
       method: "POST",
       headers: this.getPublicHeaders(),
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
     });
   }
 
@@ -64,13 +49,20 @@ export default class {
     })
   }
 
+  async getCustomerDetails(id) {
+    const url = `${API_URL}customers/${id}/`
+    return fetch(url, {
+      headers: this.getPrivateHeaders(),
+    })
+  }
 
-  async createCustomer(payload) {
+
+  async createCustomer(data) {
     const url = `${API_URL}customers`
     return fetch(url, {
       method: "POST",
       headers: this.getPrivateHeaders(),
-      body: JSON.stringify(payload)
+      body: JSON.stringify(data)
     })
   }
 
