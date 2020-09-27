@@ -42,19 +42,20 @@ width: 100%;
 const CreateBtn = styled.button`
 border:none;
 outline: none;
-background: whitesmoke;
-width: 15vw;
-height: 5vh;
-margin-top: 10px;
+background:#364947;
+width: 20vw;
+height: 6vh;
 border-radius: 12pt;
+margin-top: 10px;
 opacity: 0.9;
 font-size: 15px;
-color: #364947;
+color: whitesmoke;
 display: block;
+cursor: pointer;
 
 &:hover {
-  background:#364947;
-  color:whitesmoke;
+  background: #80BA7F;
+  color:#364947;
 }
 `
 const ErrorBox = styled.div`
@@ -84,10 +85,7 @@ export default function CreateCustomer({ fetchCustomers }) {
   }
   
 
-  
-
   return (
-    <>
     <Form onSubmit={handleSubmit(handleCreateCustomer)}>
       <Paragraph>Create new customer</Paragraph>
       <InputBox>
@@ -129,7 +127,5 @@ export default function CreateCustomer({ fetchCustomers }) {
       <CreateBtn>Create customer</CreateBtn>
       </BtnBox>
     </Form>
-
-    </>
   );
 }
