@@ -33,7 +33,7 @@ const Form = styled.form`
   flex-flow: wrap;
   justify-content: space-evenly;
   align-items: center;
-  width: 100%;
+  width: 80%;
 `;
 
 const InputField = styled.input`
@@ -53,7 +53,7 @@ justify-content: center;
 width: 100%;
 `
 
-const RegisterBtn = styled.button`
+const Button = styled.button`
 border:none;
 outline: none;
 background:#364947;
@@ -65,13 +65,28 @@ opacity: 0.9;
 font-size: 18px;
 color: whitesmoke;
 cursor: pointer;
+`;
+
+const RegisterBtn = styled(Button)`
 
 &:hover {
   background: #80BA7F;
   color:#364947;
 }
-
 `;
+
+const ToLoginBtn = styled(Button)`
+background: transparent;
+border: 1px solid #364947;
+color: #364947;
+
+&:hover {
+  background: whitesmoke;
+  color: black;
+  border: none;
+  opacity: 0.5;
+}
+`
 
 export default function RegisterForm() {
 
@@ -88,27 +103,32 @@ export default function RegisterForm() {
       history.push("/activate-user")
   }
 
+  function handleToLogInBtn(){
+    history.push("/login")
+  }
+
   return (
     <Wrapper>
       <ApplicationHeading>Business Application</ApplicationHeading>
       <Paragraph>Create new account</Paragraph>
       <Form onSubmit={handleSubmit(handleRegister)}>
         <InputField ref={register({required:true})} name="firstName" type="text" placeholder="Firstname"></InputField>
-        {errors.firstName && errors.firstName.type === "required" && (<p>* required</p>)}
+        {errors.firstName && errors.firstName.type === "required" && (<p>*</p>)}
         <InputField ref={register({required:true})} name="lastName" type="text" placeholder="Lastname"></InputField>
-        {errors.lastName && errors.lastName.type === "required" && (<p>* required</p>)}
+        {errors.lastName && errors.lastName.type === "required" && (<p>*</p>)}
         <InputField ref={register({required:true})} name="email" type="email" placeholder="Email"></InputField>
-        {errors.email && errors.email.type === "required" && (<p>* required</p>)}
+        {errors.email && errors.email.type === "required" && (<p>*</p>)}
         <InputField ref={register({required:true})} name="password" type="password" placeholder="Password"></InputField>
-        {errors.password && errors.password.type === "required" && (<p>* required</p>)}
+        {errors.password && errors.password.type === "required" && (<p>*</p>)}
         <InputField ref={register({required:true})} name="organisationName" type="text" placeholder="Organisation name"></InputField>
-        {errors.organisationName && errors.organisationName.type === "required" && (<p>* required</p>)}
+        {errors.organisationName && errors.organisationName.type === "required" && (<p>*</p>)}
         <InputField  ref={register({required:true})} name="organisationKind"type="number" placeholder="Organisation kind (0, 1, 2)"></InputField>
-        {errors.organisationKind && errors.organisationKind.type === "required" && (<p>* required</p>)}
+        {errors.organisationKind && errors.organisationKind.type === "required" && (<p>*</p>)}
         <BtnBox>
         <RegisterBtn>Register</RegisterBtn>
         </BtnBox>
       </Form>
+        <ToLoginBtn onClick={handleToLogInBtn}>Login</ToLoginBtn>
     </Wrapper>
   );
 }
