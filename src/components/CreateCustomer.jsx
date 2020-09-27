@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import UserKit from "../data/UserKit";
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
