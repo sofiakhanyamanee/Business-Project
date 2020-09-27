@@ -32,6 +32,8 @@ export default class {
     });
   }
 
+
+
   async getUser(){
     const url = `${ROOT_URL}api/v1/me`
     return fetch(url, {
@@ -74,12 +76,12 @@ export default class {
     })
   }
 
-  async editCustomer(id, payload){
+  async editCustomer(id, data){
     const url = `${API_URL}customers/${id}/`
     return fetch(url, {
       method: "PATCH",
       headers: this.getPrivateHeaders(),
-      body: JSON.stringify(payload)
+      body: JSON.stringify(data)
     })
   }
 
@@ -90,6 +92,10 @@ export default class {
 
   getToken() {
     return localStorage.getItem("BUSINESS_TOKEN");
+  }
+
+  removeToken() {
+    return localStorage.clear();
   }
 
   getPublicHeaders() {
