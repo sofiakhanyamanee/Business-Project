@@ -65,7 +65,7 @@ height: 6vh;
 margin-top: 20px;
 border-radius: 12pt;
 opacity: 0.9;
-font-size: 18px;
+font-size: 15px;
 color: whitesmoke;
 cursor: pointer;
 `
@@ -137,9 +137,9 @@ export default function LoginForm() {
         <FormContainer onSubmit={handleSubmit(handleLogin)}>
             <Heading>Login</Heading>
             <InputField ref={register({required:true})} name="email" type="email" placeholder="Email"/>
-            {errors.email && errors.email.type === "required" && (<p>* required</p>)}
+            {errors.email && errors.email.type === "required" && (<p> Email required</p>)}
             <InputField ref={register({required:true})} name="password" type="password" placeholder="Password"/>
-            {errors.password && errors.password.type === "required" && (<p>* required</p>)}
+            {errors.password && errors.password.type === "required" && (<p>Password required</p>)}
             <LogInBtn>Login</LogInBtn>
              <CreateAccountBtn onClick={createNewAccount}>Create new account</CreateAccountBtn>
         </FormContainer>
