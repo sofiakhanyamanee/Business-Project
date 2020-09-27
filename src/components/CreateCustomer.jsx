@@ -73,20 +73,18 @@ export default function CreateCustomer({ fetchCustomers }) {
   const userKit = new UserKit();
   const { register, handleSubmit, errors } = useForm();
 
-
   function handleCreateCustomer(data) {
-      userKit.createCustomer(data)
-      .then(res => res.json())
-      .then(data => {
+    userKit.createCustomer(data)
+    .then(res => res.json())
+    .then(data => {
       console.log(data)
       fetchCustomers()
-      })
-
+      alert("New customer has been added!")
+    })
   }
+  
 
-  useEffect(() => {
-    handleCreateCustomer()
-  }, [])
+  
 
   return (
     <>
@@ -94,21 +92,32 @@ export default function CreateCustomer({ fetchCustomers }) {
       <Paragraph>Create new customer</Paragraph>
       <InputBox>
         <InputField ref={register({required:true})} name="name" type="text" placeholder="Customer name"></InputField> 
+        {errors.name && errors.name.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true})} name="organisationNr" type="text" placeholder="Organisation number"></InputField>    
+        {errors.organisationNr && errors.organisationNr.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true, pattern: {value: /^SE[0-9]{10}$/g}, minLength: 12, maxLength:12,})} name="vatNr" type="text" placeholder="VAT-number"></InputField>
+        {errors.vatNr && errors.vatNr.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
+        {errors.vatNr && errors.vatNr.type === "pattern" && (<ErrorMsg>*</ErrorMsg>)}
+         {errors.vatNr && errors.vatNr.type === "minLength" && (<ErrorMsg>*</ErrorMsg>)}
+        {errors.vatNr && errors.vatNr.type === "maxLength" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true})} name="reference" type="text" placeholder="Reference"></InputField>
+        {errors.reference && errors.reference.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true, minLength: 1})} name="paymentTerm" type="number" placeholder="Payment term"></InputField>
+        {errors.paymentTerm && errors.paymentTerm.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true})} name="website" type="text" placeholder="Website"></InputField>
+        {errors.website && errors.website.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true})} name="email" type="email" placeholder="Email"></InputField>
+        {errors.email && errors.email.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
         <InputField ref={register({required:true})} name="phoneNumber" type="text" placeholder="Phone number"></InputField>
+        {errors.phoneNumber && errors.phoneNumber.type === "required" && (<ErrorMsg>*</ErrorMsg>)}
       </InputBox>
       <ErrorBox>
         {errors.name && errors.name.type === "required" && (<ErrorMsg>- Please enter customer name</ErrorMsg>)}
         {errors.organisationNr && errors.organisationNr.type === "required" && (<ErrorMsg>- Please enter organisation number</ErrorMsg>)}
         {errors.vatNr && errors.vatNr.type === "required" && (<ErrorMsg>- Please enter vat number</ErrorMsg>)}
         {errors.vatNr && errors.vatNr.type === "pattern" && (<ErrorMsg>- Vat number must start with "SE" + 10 numbers</ErrorMsg>)}
-        {errors.vatNr && errors.vatNr.type === "minLength" && (<ErrorMsg>- Vat number must be 12 letters</ErrorMsg>)}
-        {errors.vatNr && errors.vatNr.type === "maxLength" && (<ErrorMsg>- Vat number must be 12 letters</ErrorMsg>)}
+        {errors.vatNr && errors.vatNr.type === "minLength" && (<ErrorMsg>- Vat number must contain 12 letters</ErrorMsg>)}
+        {errors.vatNr && errors.vatNr.type === "maxLength" && (<ErrorMsg>- Vat number can not contain more than 12 letters</ErrorMsg>)}
         {errors.reference && errors.reference.type === "required" && (<ErrorMsg>- Please enter reference</ErrorMsg>)}
         {errors.paymentTerm && errors.paymentTerm.type === "required" && (<ErrorMsg>- Please enter payment term</ErrorMsg>)}
         {errors.paymentTerm && errors.paymentTerm.type === "minLength" && (<ErrorMsg>- Payment term shall contain a number</ErrorMsg>)}
