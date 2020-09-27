@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserKit from "../data/UserKit";
 import { useHistory, Link } from "react-router-dom";
 import styled from 'styled-components'
+import { useForm } from 'react-hook-form'
 
 const Wrapper = styled.main`
 width: 10vw;
@@ -83,7 +84,7 @@ const FormBtns = styled(Button)`
 border: none;
 `
 
-const FormBox = styled.div`
+const FormBox = styled.form`
 text-align: center;
 margin-left: 80px;
 `
@@ -104,11 +105,12 @@ export default function CustomerDetailPage(props) {
   const history = useHistory();
   const [toggleInput, setToggleInput] = useState(false);
   const [customerDetail, setCustomerDetail] = useState([])
-  const customerID = props.match.params.id;
+  const id = props.match.params.id;
   const userKit = new UserKit();
+  const { register, handleSubmit, errors } = useForm();
 
   function handleDeleteCustomer() {
-    userKit.deleteCustomer(customerID).then((res) => {
+    userKit.deleteCustomer(id).then((res) => {
       console.log("Delete Status " + res.status);
       history.push("/home");
     });
@@ -120,7 +122,7 @@ export default function CustomerDetailPage(props) {
 
 
   function fetchCustomerDetails() {
-    userKit.getCustomerDetails(customerID)
+    userKit.getCustomerDetails(id)
     .then(res => res.json())
     .then(data => {
       console.log(data)
@@ -133,56 +135,40 @@ export default function CustomerDetailPage(props) {
     setToggleInput(true);
   }
 
-  const [name, setName] = useState(customerDetail.name);
-  const [organisationNr, setOrganisationNr] = useState(customerDetail.organisationNr);
-  const [vatNr, setVatNr] = useState(customerDetail.vatNr);
-  const [reference, setReference] = useState(customerDetail.reference);
-  const [paymentTerm, setPaymentTerm] = useState(customerDetail.paymentTerm);
-  const [website, setWebsite] = useState(customerDetail.website);
-  const [email, setEmail] = useState(customerDetail.email);
-  const [phoneNumber, setPhoneNumber] = useState(customerDetail.phoneNumber);
+
+  function editInfo(data) {
+    userKit.editCustomer(id, data)
+      .then(() => {
+        fetchCustomerDetails()
+        alert("Your info has being updated!")
+        // history.push("/home");
+      });
+  }
 
   function showEditor() {
     if (toggleInput === true) {
       console.log("edit this shit");
       return (
-        <FormBox>
-          <InputField onChange={(e) => setName(e.target.value)} placeholder={customerDetail.name}/>
-          <InputField onChange={(e) => setOrganisationNr(e.target.value)} placeholder={customerDetail.organisationNr}/>
-          <InputField onChange={(e) => setVatNr(e.target.value)} placeholder={customerDetail.vatNr}/>
-          <InputField onChange={(e) => setPaymentTerm(e.target.value)} placeholder={customerDetail.paymentTerm}/>
-          <InputField onChange={(e) => setEmail(e.target.value)} placeholder={customerDetail.email}/>
-          <InputField onChange={(e) => setReference(e.target.value)} placeholder={customerDetail.reference}/>
-          <InputField onChange={(e) => setWebsite(e.target.value)} placeholder={customerDetail.website}/>
-          <InputField onChange={(e) => setPhoneNumber(e.target.value)} placeholder={customerDetail.phoneNumber}/>
+        <FormBox onSubmit={handleSubmit(editInfo)}>
+          <InputField ref={register({required:true})} name="name" type="text" defaultValue={customerDetail.name}></InputField>
+          <InputField ref={register({required:true})} name="organisationNr" type="text" defaultValue={customerDetail.organisationNr}></InputField>
+          <InputField ref={register({required:true, pattern: {value: /^SE[0-9]{10}$/g}, minLength: 12, maxLength:12,})}  name="vatNr" type="text" defaultValue={customerDetail.vatNr}></InputField>
+          {errors.vatNr && errors.vatNr.type === "pattern" && (<p>- Vat number must start with "SE" + 10 numbers</p>)}
+          {errors.vatNr && errors.vatNr.type === "minLength" && (<p>- Vat number must contain 12 letters</p>)}
+          {errors.vatNr && errors.vatNr.type === "maxLength" && (<p>- Vat number can not contain more than 12 letters</p>)}
+          <InputField ref={register({required:true, minLength: 1})} name="paymentTerm" type="number" defaultValue={customerDetail.paymentTerm}></InputField>
+          {errors.paymentTerm && errors.paymentTerm.type === "minLength" && (<p>- Payment term shall contain a number</p>)}
+          <InputField ref={register({required:true})} name="email" type="email" defaultValue={customerDetail.email}></InputField>
+          <InputField ref={register({required:true})} name="reference" type="text" defaultValue={customerDetail.reference}></InputField>
+          <InputField ref={register({required:true})} name="website" type="text" defaultValue={customerDetail.website}></InputField>
+          <InputField ref={register({required:true})} name="phoneNumber" type="text" defaultValue={customerDetail.phoneNumber}></InputField>
+          <FormBtns>Save changes</FormBtns>
           <FormBtns onClick={() => setToggleInput(false)}>Cancel</FormBtns>
-          <FormBtns onClick={editInfo}>Save changes</FormBtns>
         </FormBox>
       );
     }
   }
 
-  function editInfo() {
-    const payload = {
-      name,
-      organisationNr,
-      vatNr,
-      reference,
-      paymentTerm,
-      website,
-      email,
-      phoneNumber,
-    };
-    console.log("ID" + customerID);
-    userKit
-      .editCustomer(customerID, payload)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        alert("Your info has being updated!")
-        history.push("/home");
-      });
-  }
 
   return (
     <Wrapper>
