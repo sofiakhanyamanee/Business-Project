@@ -141,6 +141,7 @@ export default function CustomerDetailPage(props) {
       .then(() => {
         fetchCustomerDetails()
         alert("Your info has being updated!")
+        setToggleInput(false)
         // history.push("/home");
       });
   }
