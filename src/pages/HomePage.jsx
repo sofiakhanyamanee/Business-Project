@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import CreateCustomer from '../components/CreateCustomer'
 import CustomerList from '../components/CustomerList'
+import { useHistory } from "react-router-dom";
 import { CustomerContext } from '../contexts/CustomerContext'
 import { UserContext } from '../contexts/UserContext'
 import UserKit from '../data/UserKit'
@@ -92,6 +93,7 @@ color: whitesmoke;
 export default function HomePage() {
   const {customerList, setCustomerList} = useContext(CustomerContext)
   const {userInfo, setUserInfo} = useContext(UserContext)
+  const history = useHistory();
 
   const userKit = new UserKit();
 
@@ -112,10 +114,15 @@ export default function HomePage() {
   })
 }
 
-useEffect(()=> {
-  fetchUser()
-  fetchCustomers()
-}, [])
+  useEffect(()=> {
+    fetchUser()
+    fetchCustomers()
+  }, [])
+
+  function signOut() {
+    userKit.removeToken()
+    history.push("/login");
+  }
 
   return (
     <Container value={{customerList, setCustomerList, userInfo, setUserInfo}}>   
@@ -133,7 +140,7 @@ useEffect(()=> {
         <CustomerListBox> 
           <Heading>Customers</Heading>
           <CustomerList fetchCustomers={fetchCustomers}/>
-          <SignOutBtn>Log out</SignOutBtn>
+          <SignOutBtn onClick={signOut}>Log out</SignOutBtn>
         </CustomerListBox>
 
     </Container>
