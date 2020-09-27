@@ -62,7 +62,7 @@ height: 6vh;
 margin-top: 20px;
 border-radius: 12pt;
 opacity: 0.9;
-font-size: 18px;
+font-size: 15px;
 color: whitesmoke;
 cursor: pointer;
 `;
