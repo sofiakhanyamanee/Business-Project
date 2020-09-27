@@ -56,16 +56,10 @@ outline:none;
 opacity: 0.5;
 margin: 15px;
 `;
-const BtnBox = styled.div`
-width: 100vw;
-display: flex;
-justify-content: center;
-`
 
-const LogInButton = styled.button`
+const Button = styled.button`
 border:none;
 outline: none;
-background:#364947;
 width: 21.5vw;
 height: 6vh;
 margin-top: 20px;
@@ -74,10 +68,27 @@ opacity: 0.9;
 font-size: 18px;
 color: whitesmoke;
 cursor: pointer;
+`
+
+const LogInBtn = styled(Button)`
+background:#364947;
 
 &:hover {
   background: #80BA7F;
   color:#364947;
+}
+`
+
+const CreateAccountBtn = styled(Button)`
+background: transparent;
+border: 1px solid #364947;
+color: #364947;
+
+&:hover {
+  background: whitesmoke;
+  color: black;
+  border: none;
+  opacity: 0.5;
 }
 `
 
@@ -111,6 +122,10 @@ export default function LoginForm() {
       });
   }
 
+  function createNewAccount(){
+    history.push("/");
+  }
+
   return (
     <Wrapper>
       {uid && token ? (
@@ -125,9 +140,11 @@ export default function LoginForm() {
             {errors.email && errors.email.type === "required" && (<p>* required</p>)}
             <InputField ref={register({required:true})} name="password" type="password" placeholder="Password"/>
             {errors.password && errors.password.type === "required" && (<p>* required</p>)}
-            <LogInButton>Login</LogInButton>
+            <LogInBtn>Login</LogInBtn>
+             <CreateAccountBtn onClick={createNewAccount}>Create new account</CreateAccountBtn>
         </FormContainer>
       )}
+
     </Wrapper>
   );
 }
